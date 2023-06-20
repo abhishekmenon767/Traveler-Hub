@@ -1,0 +1,39 @@
+ {% extends 'basic.html' %} {% block title %}View Package {% endblock title %} {% block body %}
+<h3 class="text-success"> Details</h3>
+<hr>
+<div class="container mx-0 ">
+    <p><b>Number :-</b> {{package.packagenumber}}</p>
+    <p><b>Type :-</b> {{package.get_package_type_display}}</p>
+    <p><b>Capacity :-</b> {{package.capacity}} person</p>
+
+    <p><b>City :-</b> {{package.location| capfirst}} </p>
+    <p><b>State :-</b> Kerala </p>
+    <p><b>Country :-</b> India </p>
+</div>
+
+
+<hr> {% if reservations %}
+<h3 class="text-success">Bookings :-</h3>
+<table class="table table-striped table-dark">
+    <thead>
+        <th scope="col">Username</th>
+        <th scope="col">Person</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+    </thead>
+    {% for each_detail in reservations %}
+    <tr>
+        <td scope="col">{{each_detail.guest.username}}</td>
+        <td scope="col">{{each_detail.package.}}</td>
+        <td scope="col">{{each_detail.check_in}}</td>
+        <td scope="col">{{each_detail.check_out}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td scope="col"><b>Total bookings = </b>{{reservations | length}}</td>
+    </tr>
+
+</table>
+{% else %}
+<p>No details found</p>
+{% endif %} {% endblock body %}

@@ -1,0 +1,421 @@
+{% extends 'basic.html' %} {% block title %} staff panel {% endblock title %} {% block css %}
+<style>
+    .progress {
+        width: 150px;
+        height: 150px;
+        background: none;
+        position: relative;
+    }
+    .table th {
+text-align: center;
+}
+  .table td {
+text-align: center;
+}
+    
+    .progress::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 6px solid #eee;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .progress>span {
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+    }
+    
+    .progress .progress-left {
+        left: 0;
+    }
+    
+    .progress .progress-bar {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border-width: 6px;
+        border-style: solid;
+        position: absolute;
+        top: 0;
+    }
+    
+    .progress .progress-left .progress-bar {
+        left: 100%;
+        border-top-right-radius: 80px;
+        border-bottom-right-radius: 80px;
+        border-left: 0;
+        -webkit-transform-origin: center left;
+        transform-origin: center left;
+    }
+    
+    .progress .progress-right {
+        right: 0;
+    }
+    
+    .progress .progress-right .progress-bar {
+        left: -100%;
+        border-top-left-radius: 80px;
+        border-bottom-left-radius: 80px;
+        border-right: 0;
+        -webkit-transform-origin: center right;
+        transform-origin: center right;
+    }
+    
+    .progress .progress-value {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    /*
+*
+* ==========================================
+* FOR DEMO PURPOSE
+* ==========================================
+*
+*/
+    
+    body {
+        min-height: 100vh;
+    }
+    
+    .rounded-lg {
+        border-radius: 1rem;
+    }
+    
+    .text-gray {
+        color: #aaa;
+    }
+    
+    div.h4 {
+        line-height: 1rem;
+    }
+</style>
+{% endblock css %} {% block body %}
+<!--Staff section -->
+
+<!--packages Stats section starts here-->
+
+
+<section class="my-5 ">
+    {%load app_tags%}
+     <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">PACKAGE STATS</h4>
+</div></div>
+            </div>
+    <div class="container-fluid px-5 py-5 border">
+        <div class="row">
+
+
+
+            <div class="col-xl-3 col-lg-6 col-sm-12 mb-4 ">
+                <div class="bg-white rounded-lg p-5 shadow">
+                    <h2 class="h6 font-weight-bold text-center mb-4">Total Package</h2>
+
+                    <!-- Progress bar 1 -->
+
+                    <div class="progress mx-auto" data-value={{ total_packages|percentage:total_packages}}>
+                        <span class="progress-left">
+                                    <span class="progress-bar border-primary"></span>
+                        </span>
+                        <span class="progress-right">
+                                    <span class="progress-bar border-primary"></span>
+                        </span>
+                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 font-weight-bold">{{ total_packages}}</div>
+                        </div>
+                    </div>
+                    <!-- END -->
+
+
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
+                <div class="bg-white rounded-lg p-5 shadow">
+                    <h2 class="h6 font-weight-bold text-center mb-4">Available Packages</h2>
+
+                    <!-- Progress bar 2 -->
+                    <div class="progress mx-auto" data-value={{ available|percentage:total_packages}}>
+                        <span class="progress-left">
+                                    <span class="progress-bar border-success"></span>
+                        </span>
+                        <span class="progress-right">
+                                    <span class="progress-bar border-success"></span>
+                        </span>
+                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 font-weight-bold">{{ available}}</div>
+                        </div>
+                    </div>
+                    <!-- END -->
+
+
+                </div>
+            </div>
+
+
+            <div class="col-xl-3 col-lg-6 col-sm-12 mb-4">
+                <div class="bg-white rounded-lg p-5 shadow">
+                    <h2 class="h6 font-weight-bold text-center mb-4">Total Reservation</h2>
+
+                    <!-- Progress bar 4 -->
+                    <div class="progress mx-auto" data-value={{reserved |percentage:total_packages}}>
+                        <span class="progress-left">
+                                    <span class="progress-bar border-warning"></span>
+                        </span>
+                        <span class="progress-right">
+                                    <span class="progress-bar border-warning"></span>
+                        </span>
+                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 font-weight-bold">{{reserved}}</div>
+                        </div>
+                    </div>
+                    <!-- END -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--package Stats section ends here-->
+
+
+
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">PACKAGES AVAILABLE</h4>
+            </div></div></div>
+
+
+
+
+
+<table class="table table-striped table-dark">
+    <thead>
+<!--        <th scope="col">Package Number</th>-->
+        <th scope="col">Type</th>
+
+        <th scope="col">Price</th>
+        <th scope="col">Person</th>
+        <th scope="col">Location</th>
+        <th scope="col">Actions</th>
+
+    </thead>
+    {% if packages %} {% for each_package in packages %}
+    <tr>
+<!--        <td scope="col">{{each_package.packagenumber}}</td>-->
+        <td scope="col">{{each_package.get_package_type_display}}</td>
+
+        <td scope="col">{{each_package.price}}</td>
+        <td scope="col">{{each_package.capacity}}</td>
+        <td scope="col">{{each_package.location}}</td>
+        <td scope="col" colspan="2">
+            <a href="/staff/panel/edit-package?packageid={{each_package.id}}"><Button class="btn btn-success">Edit</Button></a>
+            <a href="/staff/panel/view-package?packageid={{each_package.id}}"><Button class="btn btn-primary">View</Button></a>
+            <a href="{{each_package.id}}"><Button class="btn btn-danger">Delete</Button></a>
+        </td>
+
+
+    </tr>
+    {% endfor %} {% endif %}
+</table>
+<Button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#newpackage">Add New Package</Button>
+<br>
+<br>
+<br>
+<br>
+
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">LOCATIONS AVAILABLE</h4>
+</div></div>
+            </div>
+
+
+
+<table class="table table-striped table-dark">
+    <tr>
+        <th scope="col">Locations</th>
+        <th scope="col"  colspan="2">Action</th>
+    </tr>
+        {% for i in a %}
+        <tr>
+            <td scope="col">{{i.location}}</td>
+            <td scope="col" colspan="2">
+            <a href="deletestaff/{{i.id}}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+</table>
+<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#newlocation">Add New Location</button>
+<br>
+<br>
+<!---->
+
+<!--Modal for Add New Location starts from here-->
+
+<!-- The Modal -->
+<div class="modal" id="newlocation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Location</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col mx-auto">
+
+                            <form action="/staff/panel/add-new-location" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="city">City:</label>
+                                    <input type="text" class="form-control " id="new_city" name="new_city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">State:</label>
+                                    <input type="text" class="form-control " id="new_state" name="new_state">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country:</label>
+                                    <input type="text" class="form-control " id="new_country" name="new_country">
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary">Add Location</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!--Modal for Add New location Ends here-->
+
+<!--Modal for Add New package starts from here-->
+
+<!-- The Modal -->
+<div class="modal" id="newpackage">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Package</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col mx-auto">
+
+                            <form action="/staff/panel/add-new-package" method="POST">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="email">Package Type:</label>
+                                    <select class="form-control" name="packagetype" id="packagetype">
+                                        
+                                        <option value="1">Diamond</option>
+                                        <option value="2">Gold</option>
+                                        <option value="3">Silver</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd">Capacity:</label>
+                                    <input type="number" class="form-control " id="capacity" name="capacity">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd">Price:</label>
+                                    <input type="number" class="form-control " id="price" name="price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd">Status:</label>
+                                    <select class="form-control" name="status" id="packagestatus">
+                                        
+                                        <option value="1">Available</option>
+                                        <option value="2">Not Available</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd">Location:</label>
+
+                                    <select class="form-control" name="agency" id="agency">
+                                        {% for i in a %}
+                                        <option value={{i.id}}>{{i.location}}</option>
+                                        {% endfor %}
+                                        
+                                        
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Package</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!--Modal for Add New package Ends here-->
+
+{% endblock body %} {% block js %}
+<!-- jquery for package stats  starts here-->
+<script>
+    $(function() {
+
+        $(".progress").each(function() {
+
+            var value = $(this).attr('data-value');
+            var left = $(this).find('.progress-left .progress-bar');
+            var right = $(this).find('.progress-right .progress-bar');
+
+            if (value > 0) {
+                if (value <= 50) {
+                    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                } else {
+                    right.css('transform', 'rotate(180deg)')
+                    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                }
+            }
+
+        })
+
+        function percentageToDegrees(percentage) {
+
+            return percentage / 100 * 360
+
+        }
+
+    });
+</script>
+<!--Jquery for package stats ends here-->
+{% endblock js %}

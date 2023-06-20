@@ -1,0 +1,265 @@
+  {% extends 'basic.html' %}
+    {% block title %}Traveler Hub
+    {% endblock title %}
+   {% block body %}
+    {% load static %}
+
+     <!--Booking Section starts here-->
+    <section>
+           <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">BOOK NOW</h4>
+
+        <div class="container-fluid py-5 px-5 ">
+            <form action="package_search" method="POST">
+            {% csrf_token %}
+            <div class="row justify-content-center py-5 bg-light">
+                <div class="col-lg-4">
+                    <label for="">Location</label>
+                    <select class="form-control" name="search_location" id="packagestatus">
+                        <!--Agency id and location-->
+                   <option>Location</option>
+
+                        {% for i in a %}
+                            <option value="{{i.id}}">{{i.location}}</option>
+                        {% endfor %}
+
+
+
+                    </select>
+                </div>
+                {%load app_tags%}
+                <div class="col-lg-2">
+                    <label for="">Start</label>
+                    <input class="form-control mr-sm-2" type="date" placeholder="Check in" name="cin" min={%todays_date%} max={% max_date %} aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+                    <label for="">End</label>
+                    <input class="form-control mr-sm-2" type="date" placeholder="Check out" name="cout" min={%tommorow%} max={% max_date%} aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Person</label>
+                    <input class="form-control mr-sm-2" type="number" placeholder="Person" name="capacity" aria-label="Search" required="True">
+                </div>
+                <div class="col-lg-2">
+
+                    <input type="submit" value="Check Availabilty" class="form-control mr-sm-2 btn btn-primary my-4" style="position: relative;top: 7px;">
+                </div>
+
+
+            </div>
+            </form>
+
+        </div>
+    </section>
+    <!--Booking Section ends here-->
+    <div class="container-fluid px-0 mx-aut">
+        {% if data1 %}
+        <p class="text-center text-success">Packages Available</p>
+           <table class="table">
+               <thead class="o">
+                <th>Type</th>
+                <th>Location</th>
+                <th>Person</th>
+                <th>price</th>
+                <th>Action</th>
+            </thead>
+            {% for r in data1 %}
+                <tr class="">
+                <td>{{ r.package_type }}</td>
+                <td>{{ r.location }}</td>
+                <td>{{ r.capacity }}</td>
+                <td>{{ r.price }}</td>
+
+                <td><a href="/user/book-package?packageid={{r.id}}"><button class="btn btn-warning">Book Now</button></a></td>
+                </tr>
+
+            {% endfor %}
+           </table>
+
+
+        {% endif %}
+    </div>
+
+
+<!--    &lt;!&ndash;Fetched results ends here&ndash;&gt;-->
+<!--   <div class="container-fluid py-5">-->
+<!--        <div class="container pt-5 pb-3">-->
+<!--            <div class="text-center mb-3 pb-3">-->
+<!--                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Package Information</h4>-->
+
+<!--            </div></div></div>-->
+
+
+    <!--Room tables starts here-->
+    <div class="container-fluid px-0">
+          <style>
+       td {
+  border: 1px white;
+  background-color: gold;
+  font-weight: bold;
+
+
+}
+table {
+  border-collapse: collapse;
+  border: 2px white;
+  text-align: center;
+  vertical-align: middle;
+}
+thead {
+  background-color: #007bff;
+  color: white;
+  font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 2%;
+}
+.table table-striped{
+margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+
+
+  </style>
+
+<!--        <table  align="center" style="margin-left:auto;margin-right:auto;" class="table table-striped">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th class="text-center">Information</th>-->
+<!--                    <th class="text-center">View</th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--                <tr>-->
+<!--                    <td class="text-center">-->
+<!--                        &lt;!&ndash;Room details&ndash;&gt;-->
+<!--                        <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">DIAMOND</h4>-->
+<!--                        <br>-->
+<!--                        <br>-->
+<!--                        <p>Price:7000</p>-->
+<!--                        <p>Capacity :Max person 3</p>-->
+<!--                        <p>Services :Food,Travel,Accommodation,Guide</p>-->
+<!--                    </td>-->
+<!--                    <td class="text-center">-->
+<!--                      <img style="height: 250px; width: 250px" class="img-fluid" src="{% static 'img/Diamond.jpg' %}">-->
+<!--                        </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td class="text-center">-->
+<!--                        &lt;!&ndash;Package details&ndash;&gt;-->
+<!--                        <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">GOLD</h4>-->
+<!--                        <br>-->
+<!--                        <br>-->
+<!--                        <p>Price:5000</p>-->
+<!--                        <p>Capacity :Max person 2</p>-->
+<!--                        <p>Services :Food,Travel,Accommodation</p>-->
+
+<!--                    </td>-->
+<!--                    <td class="text-center">-->
+
+<!--                      <img style="height: 250px; width: 250px" class="img-fluid" src="{% static 'img/Gold.jpg' %}">-->
+<!--                    </td>-->
+
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td class="text-center">-->
+<!--                        &lt;!&ndash;Room details&ndash;&gt;-->
+<!--                        <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">SILVER</h4>-->
+<!--                        <br>-->
+<!--                        <br>-->
+
+<!--                        <p>Price:3000</p>-->
+<!--                        <p>Capacity :Max person 2</p>-->
+<!--                        <p>Services :Travel,Accommodation</p>-->
+
+<!--                    </td>-->
+<!--                    <td class="text-center">-->
+<!--                        &lt;!&ndash;Room Images&ndash;&gt;-->
+<!--                         <img style="height: 250px; width: 250px" class="img-fluid" src="{% static 'img/Silver.jpg' %}">-->
+<!--                    </td>-->
+
+<!--                </tr>-->
+
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+    <!--Roo tables ends here-->
+  <!-- Destination Start -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Destination</h6>
+                <h1>Explore Top Destination</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/16.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">KOCHI</h5>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/15.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">KANNUR</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/14.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">KOZHIKODE</h5>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/13.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">WAYANAD</h5>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/12.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">MUNNAR</h5>
+
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="{% static 'img/11.jpg' %}" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="">
+                            <h5 class="text-white">ALAPPUZHA</h5>
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Destination Start -->
+
+
+    {% endblock body %}
+    <!--Fetched results ends here-->
+
+
+
+
+   
+   
